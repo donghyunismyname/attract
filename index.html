@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<head>
+  <title>Gravitation</title>
+</head>
+<body>
+  <p>
+    Move cursor around;
+    Space bar to generate particles;
+    Left click to invert velocity;
+  </p>
+  <canvas id="canvas" width="1000" height="600">
+    This text is displayed if your browser does not support HTML5 Canvas.
+  </canvas>
+
+  <script type="text/javascript">
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+    me = {x:500, y:500};
+
+
+    function randomParticle() {
+      return {
+        x: 300, // + Math.random()*800,
+        y: 300, // + Math.random()*800,
+        vx: 100,
+        vy: 0,
+        k: 1 + 2*Math.random(),
+      }
+    }
+    function updateParticle(p, toward, dt) {
+      var x = toward.x - p.x
+      var y = toward.y - p.y
+      var ax = p.k*x
+      var ay = p.k*y;
+      p.vx += ax * dt;
+      p.vy += ay * dt;
+
+      //if (x**2+y**2 < 1000) {
+      //  p.vx *= -1;
+      //  p.vy *= -1;
+      //}
+      //if (Math.abs(p.vx) > 500) p.vx = p.vx > 0 ? 50 : -50;
+      //if (Math.abs(p.vy) > 500) p.vy = p.vy > 0 ? 50 : -50;
+
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+    }
+    particles = [];
+
+
+    function display() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = 'black';
+      for (var i in particles) {
+        var x = particles[i].x;
+        var y = particles[i].y;
+        ctx.fillRect(x, y, 5, 5);
+      }
+
+      ctx.fillStyle = 'red';
+      ctx.fillRect(me.x, me.y, 10, 10);
+    }
+
+    function mousemove(ev) {
+      //console.log(ev.clientX, ev.clientY);
+      me.x = ev.clientX;
+      me.y = ev.clientY;
+    }
+    function click(ev) {
+      for (var i in particles) {
+        particles[i].vx *= -0.5;
+        particles[i].vy *= -0.5;
+      }
+    }
+    function keydown(ev) {
+      console.log('keydown')
+      switch(ev.keyCode) {
+        case 32: // SPACE
+          for (var i=0; i<100; i++)
+            particles.push(randomParticle());
+          break;
+        case 97:
+          for (var i=0; i<100; i++)
+            particles.push(randomParticle());
+          break;
+      }
+    }
+
+    canvas.addEventListener('click', click);
+    canvas.addEventListener('mousemove', mousemove);
+    document.addEventListener('keydown', keydown);
+
+    last = new Date().getTime();
+    function frame() {
+      now = new Date().getTime();
+      dt = (now - last)/1000;
+      for (var i in particles) updateParticle(particles[i], me, dt);
+      //if (Math.random() < 0.05) particles.push(randomParticle())
+      last = now;
+
+      display();
+      requestAnimationFrame(frame);
+    }
+    frame();
+
+  </script>
+</body>
