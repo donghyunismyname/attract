@@ -1,4 +1,4 @@
-https://donghyunismyname.github.io/gravitation/
+https://donghyunismyname.github.io/attract/
 
 A very simple 2D physics simulator
 
