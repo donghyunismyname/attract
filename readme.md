@@ -1,4 +1,4 @@
-https://glimdhn.github.io/gravitation/
+https://donghyunismyname.github.io/gravitation/
 
 A very simple 2D physics simulator
 
