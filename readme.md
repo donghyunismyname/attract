@@ -1,4 +1,4 @@
-https://donghyunismyname.github.io/attract/
+https://donghyunismyname.github.io/attract.html
 
 A very simple 2D physics simulator
 
